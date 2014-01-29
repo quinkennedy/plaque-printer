@@ -10,8 +10,20 @@ ArrayList<Plaque> plaques;
 
 void setup(){
   plaques = new ArrayList<Plaque>();
-  plaques.add(new Plaque("Quin Kennedy,David Huerta", "The Cool Space", "Some crazy cool space with lots of stuff going on. Sit down, relax, and have some codez!"));
-  plaques.add(new Plaque("Olof Mathe", "The sick zone", "do not enter!"));
+  Table plaqueData = loadTable("spreadsheet.csv", "header");
+  for (TableRow row : plaqueData.rows()) {
+    
+    String title = row.getString("Project Title");
+    String artist = row.getString("Artist(s)");
+    String description = row.getString("Short Description (50 Words)");
+    if (title.length() > 0 || artist.length() > 0 || description.length() > 0){
+      plaques.add(new Plaque(artist, title, description));
+    }
+    if (plaques.size() > 2){
+      break;
+    }
+    //println(name + " (" + species + ") has an ID of " + id);
+  }
   
   try{
       p = new SerialThermalPrint(this);
